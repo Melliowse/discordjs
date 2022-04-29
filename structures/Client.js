@@ -9,7 +9,8 @@ module.exports = class extends (require("./BaseClient")) {
 			api: {
 				version:	9,
 				encoding:	"json",
-				url: "https://discord.com/api"
+				url: "https://discord.com/api",
+				cdn: "https://cdn.discordapp.com",
 			},
 			shardCount:	1,
 			...options
@@ -17,8 +18,13 @@ module.exports = class extends (require("./BaseClient")) {
 
 		this.rest		= new (require("../managers/RestManager"))(this);
 		this.guilds		= new (require("../managers/GuildManager"))(this);
+		this.users		= new (require("../managers/UserManager"))(this);
+		this.id			= null;
+		this.sessionID	= null;
+	}
 
-		this.user		= null;
+	get user() {
+		return this.users.get(this.id);
 	}
 
 	get api() {

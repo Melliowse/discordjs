@@ -58,6 +58,7 @@ module.exports = class {
 						this.startHeartbeat();
 					}
 					break;
+				case 11: break;
 			}
 		});
 	}

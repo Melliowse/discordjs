@@ -21,7 +21,6 @@ module.exports = class {
 	}
 
 	get(key) {
-		delete this[key];
 		return this._data.get(key).value;
 	}
 
@@ -31,11 +30,13 @@ module.exports = class {
 			value: value,
 		});
 
-		Object.defineProperty(this, key, {
-			get: () => {
-				return this.get(key);
-			},
-		});
+		if (this[key] === void 0) {
+			Object.defineProperty(this, key, {
+				get: () => {
+					return this.get(key);
+				},
+			});
+		}
 		return this;
 	}
 
