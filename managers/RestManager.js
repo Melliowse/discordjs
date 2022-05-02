@@ -10,8 +10,14 @@ const { default: axios } = require("axios"),
 		Symbol.for('nodejs.util.inspect.custom'),
 	];
 module.exports = class {
-	constructor(client) {
+	#token = null;
+	constructor(client, token) {
 		this.client = client;
+		this.#token = token;
+	}
+
+	set token(token) {
+		this.#token = token;
 	}
 
 	get api() {
@@ -21,17 +27,16 @@ module.exports = class {
 	request(method, path, data, opts = {}) {
 		const url = `${this.client.options.api.url}${(opts?.versioned || false) ? `/v${this.client.options.api.version}` : ""}${path}`;
 		const headers = {
-			Authorization: this.client.token,
+			Authorization: `Bot ${this.#token}`,
 			"Content-Type": "application/json",
 			"User-Agent": `DiscordBot (Discordjs, 1.0.0) Node.js/${process.version}`
 		};
-		console.log(url);
 		return axios({
 			method,
 			url,
 			headers,
 			data: JSON.stringify(opts)
-		}).catch(console.log);
+		});
 	}
 
 	buildRoute() {
@@ -52,17 +57,15 @@ module.exports = class {
 							routeBucket.push(route[i]);
 						}
 					}
-					return options =>
+					return options => 
 						manager.request(
 							name,
 							route.join("/"),
-							Object.assign(
-								{
-									versioned: true,
-									route: routeBucket.join('/'),
-								},
-								options,
-							),
+							{
+								versioned: true,
+								route: routeBucket.join('/'),
+							},
+							options
 						);
 				}
 				route.push(name);

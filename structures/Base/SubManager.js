@@ -1,6 +1,6 @@
 module.exports = class {
-	constructor(data) {
-		this._data = new Map();
+	constructor(client) {
+		this.client = client;
 	}
 
 	get size()		{	return this._data.size;							}

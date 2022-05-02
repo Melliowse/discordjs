@@ -3,8 +3,10 @@ const Shard = require("../structures/Shard"),
 	{ WebSocket: ws } = require("ws"),
 	{ Agent } = require("https");
 module.exports = class {
-	constructor(client) {
+	#token = null;
+	constructor(client, token) {
 		this.client = client;
+		this.#token = token;
 		this.events = require("./Events")(this);
 		this._shards = [];
 
@@ -13,7 +15,7 @@ module.exports = class {
 			{
 				agent: new Agent({ keepAlive: true}),
 				headers: {
-					Authorization: `Bot ${this.client.token}`	
+					Authorization: `Bot ${this.#token}`,
 				}
 			}
 		);
@@ -36,7 +38,7 @@ module.exports = class {
 			for (const queueEntry of this.socketQueue) {
 				setTimeout((() => {
 					this[queueEntry[0]](...queueEntry[1]);
-				}, 2000).bind(this))
+				}, 2000).bind(this));
 			}
 		});
 
@@ -98,7 +100,7 @@ module.exports = class {
 		// // const h = await this.client.api.gateway.bot.get();
 		// //   console.log(h);
 		this.send(2, {
-			token: this.client.token,
+			token: this.#token,
 			compress: false,
 			large_threshold: 250,
 			properties: {

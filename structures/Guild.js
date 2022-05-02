@@ -1,6 +1,7 @@
-module.exports = class {
+module.exports = class Guild {
 	constructor(client, data) {
 		this.client		= client;
+		this.emojis		= new (require("../managers/EmojiManager"))(this.client, this);
 		this.members	= new (require("../managers/MemberManager"))(this);
 		this._patch(data);
 	}
@@ -15,8 +16,20 @@ module.exports = class {
 
 	_patch(data) {
 		if (data?.members?.length > 0) {
-			for (const m of data.members) {
-				this.members.add(m);
+			for (const member of data.members) {
+				this.members.add(member);
+			}
+		}
+
+		if (data?.emojis?.length > 0) {
+			for (const emoji of data.emojis) {
+				this.emojis.add(emoji, this);
+			}
+		}
+
+		if (data?.channels?.length > 0) {
+			for (const channel of data.channels) {
+				this.client.channels.add(channel);
 			}
 		}
 
@@ -45,5 +58,15 @@ module.exports = class {
 				return;
 			},
 		};
+
+		this.channels	= new (require("../managers/ChannelManager"))(this.client, this, data?.channels);
+	}
+
+	async leave() {
+		this.client.api.users("@me").guilds(this.id).delete();
+	}
+
+	toString() {
+		return "Guild";
 	}
 };

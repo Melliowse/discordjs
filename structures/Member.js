@@ -1,4 +1,4 @@
-module.exports = class extends (require("./User")) {
+module.exports = class Member extends (require("./User")) {
 	constructor(client, data, guild) {
 		super(client, data.user);
 		this.guild = guild;

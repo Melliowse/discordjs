@@ -1,5 +1,5 @@
 const Member = require("../structures/Member");
-module.exports = class extends (require("../structures/BaseManager")) {
+module.exports = class extends (require("../structures/Base/Manager")) {
 	constructor(guild) {
 		super();
 		this.guild	= guild;

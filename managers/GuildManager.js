@@ -1,5 +1,6 @@
-module.exports = class extends (require("../structures/BaseManager")) {
+module.exports = class GuildManager extends (require("../structures/Base/Manager")) {
 	constructor(client) {
-		super(client);
+		super();
+		this.client = client;
 	}
 };

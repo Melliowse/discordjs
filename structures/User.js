@@ -1,4 +1,4 @@
-module.exports = class {
+module.exports = class User {
 	constructor(client, data) {
 		this.client = client;
 		this._patch(data);
