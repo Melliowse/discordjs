@@ -99,4 +99,11 @@ module.exports = class Embed {
 			type: /* .......... */ this.type || "rich",
 		};
 	}
+
+	static is(obj) {
+		if (obj.description === void 0 && obj.title === void 0 && obj.image === void 0) {
+			return false;
+		}
+		return true;
+	}
 }

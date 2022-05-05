@@ -1,3 +1,5 @@
+const Intents = require("./Intents");
+
 module.exports = class Client extends (require("./Base/Client")) {
 	#token = null;
 	constructor(options) {
@@ -13,6 +15,7 @@ module.exports = class Client extends (require("./Base/Client")) {
 				url: "https://discord.com/api",
 				cdn: "https://cdn.discordapp.com",
 			},
+			intents: [],
 			shardCount:	1,
 			...options
 		};
@@ -24,10 +27,9 @@ module.exports = class Client extends (require("./Base/Client")) {
 		this.channels	= new (require("../managers/ChannelManager"))(this);
 		this.id			= null;
 		this.sessionID	= null;
-	}
 
-	get user() {
-		return this.users.get(this.id);
+		this.initialGuilds = [];
+		this.intents = new Intents(this.options.intents);
 	}
 
 	get api() {

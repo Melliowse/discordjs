@@ -1,12 +1,10 @@
 const Permissions = require("./Permissions");
 
 module.exports = class Role {
-	constructor(client, data, guild) {
-		this.client = client;
+	constructor(guild, data) {
+		this.guild	= guild;
 
 		this.id		= data.id;
-
-		this.guild = guild;
 		this._patch(data);
 	}
 
@@ -20,12 +18,11 @@ module.exports = class Role {
 		this.managed		= data?.managed			|| false;
 		this.unicode		= data?.unicode_emoji	|| null;
 		this.permissions	= new Permissions(data?.permissions);
-		console.log(this);
 	}
 
 	toJSON() {
 		return {
-			color:	
+			color: this.color
 		};
 	}
 

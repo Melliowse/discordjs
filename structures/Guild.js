@@ -3,6 +3,7 @@ module.exports = class Guild {
 		this.client		= client;
 		this.emojis		= new (require("../managers/EmojiManager"))(this.client, this);
 		this.members	= new (require("../managers/MemberManager"))(this);
+		this.roles		= new (require("../managers/RoleManager"))(this);
 		this._patch(data);
 	}
 
@@ -30,6 +31,12 @@ module.exports = class Guild {
 		if (data?.channels?.length > 0) {
 			for (const channel of data.channels) {
 				this.client.channels.add(channel);
+			}
+		}
+
+		if (data?.roles?.length > 0) {
+			for (const role of data.roles) {
+				this.roles.add(role);
 			}
 		}
 

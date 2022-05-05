@@ -1,5 +1,4 @@
-const Emoji = require("../structures/Emoji"),
-	TextChannel = require("../structures/TextChannel");
+const Emoji = require("../structures/Emoji");
 
 class GuildEmojiManager extends (require("../structures/Base/SubManager")) {
 	constructor(client, guild, data = []) {

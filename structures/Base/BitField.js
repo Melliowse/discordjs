@@ -1,5 +1,3 @@
-const { RangeError } = require("../errors");
-
 class BitField {
 	constructor(bits = this.constructor.defaultBit) {
 		this.bitfield = this.constructor.resolve(bits);

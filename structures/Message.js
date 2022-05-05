@@ -10,9 +10,10 @@ module.exports = class Message {
 	}
 
 	_patch(data) {
-		this.content	= data?.content || null;
-		this.type		= data?.type	|| null;
-		this.tts		= data?.tts		|| false;
+		this.content	= data?.content 	|| null;
+		this.type		= data?.type		|| null;
+		this.tts		= data?.tts			|| false;
+		this.channelID	= data?.channel_id	|| null;
 
 		this.isReply	= data?.type === 19;
 
@@ -25,6 +26,13 @@ module.exports = class Message {
 			guildID:	data?.message_reference?.guild_id	|| null,
 			channelID:	data?.message_reference?.channel_id	|| null,
 		};
+
+		this.authorID = data?.author?.id;
+		this.client.users.add(data.author)
+	}
+
+	get author() {
+		return this.client.users[this.authorID];
 	}
 
 	toJSON(opts = {}) {

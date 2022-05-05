@@ -24,19 +24,20 @@ module.exports = class {
 		return this.buildRoute();
 	}
 
-	request(method, path, data, opts = {}) {
-		const url = `${this.client.options.api.url}${(opts?.versioned || false) ? `/v${this.client.options.api.version}` : ""}${path}`;
+	async request(method, path, data, opts) {
+		const url = `${this.client.options.api.url}${(data?.versioned || false) ? `/v${this.client.options.api.version}` : ""}${path}`;
 		const headers = {
 			Authorization: `Bot ${this.#token}`,
 			"Content-Type": "application/json",
 			"User-Agent": `DiscordBot (Discordjs, 1.0.0) Node.js/${process.version}`
 		};
-		return axios({
+		console.log(opts)
+		return (await axios({
 			method,
 			url,
 			headers,
-			data: JSON.stringify(opts)
-		});
+			data: opts !== void 0 ? JSON.stringify(opts) : void 0
+		})).data;
 	}
 
 	buildRoute() {
@@ -62,8 +63,8 @@ module.exports = class {
 							name,
 							route.join("/"),
 							{
-								versioned: true,
 								route: routeBucket.join('/'),
+								versioned: true
 							},
 							options
 						);

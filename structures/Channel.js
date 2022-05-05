@@ -1,13 +1,18 @@
 module.exports = class Channel {
 	constructor(client, data, guild) {
 		this.client		= client;
-		this.guild		= guild;
 		this.id			= data.id;
+		if (guild !== void 0) {
+			this.guild		= guild;
+			Object.defineProperty(this, "guildID", {
+				get: () => {
+					return this.guild.id;
+				}
+			});
+		} else {
+			this.guildID = -1;
+		}
 		this._patch(data);
-	}
-
-	get guildID() {
-		return this.guild.id;
 	}
 
 	_patch(data) {

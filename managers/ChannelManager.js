@@ -1,5 +1,6 @@
 const Channel = require("../structures/Channel"),
-	TextChannel = require("../structures/TextChannel");
+	TextChannel = require("../structures/TextChannel"),
+	DMChannel = require("../structures/DMChannel");
 
 class GuildChannelManager extends (require("../structures/Base/SubManager")) {
 	constructor(client, guild, data) {
@@ -39,21 +40,26 @@ module.exports = class extends (require("../structures/Base/Manager")) {
 		}
 	}
 
-	async fetch(id, options = { guildID: null, cache: true }) {
-		if (this[id] !== void 0 && options?.cache !== false) {
+	async fetch(id, options = { guildID: null, cache: true, recipients: [] }) {
+		if (this[id] !== undefined && options?.cache !== false) {
 			return this[id];
 		}
-		return await this.client.api.channels(id).get();
+
+		const channel = await this.client.api.channels(id).get().catch(console.log);
+		this.add(channel);
+		return this[channel.id];
 	}
 
 	add(data, guild) {
 		let channelType;
 		switch (data.type) {
 			default:
-				channelType = Channel;
+				channelType = Channel; break;
 			case 0:
-				channelType = TextChannel;
+				channelType = TextChannel; break;
+			case 1:
+				channelType = DMChannel; break;
 		}
-		this.set(data.id, new channelType(this, data, guild));
+		this.set(data.id, new channelType(this.client, data, guild));
 	}
 };
