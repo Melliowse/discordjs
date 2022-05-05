@@ -1,5 +1,6 @@
 module.exports = class {
 	constructor(data) {
+		this._count = 0;
 		this._data = new Map();
 	}
 
@@ -14,6 +15,7 @@ module.exports = class {
 	sort(fn)		{	return this.values.map(f => f.value).sort(fn);	}
 	find(fn)		{	return this.values.map(f => f.value).find(fn);	}
 	filter(fn)		{	return this.values.filter(fn);					}
+	delete(v)		{	return this._data.delete(v)						}
 
 	get	first()		{
 		return this.values.sort((b, a) => a.added - b.added)[0];
@@ -28,8 +30,9 @@ module.exports = class {
 	}
 
 	set(key, value) {
+		this._count = this._count + 1;
 		this._data.set(key, {
-			added: this.size,
+			added: this._count,
 			value: value,
 		});
 

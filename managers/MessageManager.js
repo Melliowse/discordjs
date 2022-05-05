@@ -9,6 +9,11 @@ module.exports = class MessageManager extends (require("../structures/Base/Manag
 	add(...data) {
 		for (const m of data.flat()) {
 			const message = new Message(this.client, m, this.channel);
+			
+			if (this.size > 200) {
+				this.delete(this.first.id);
+			}
+
 			this.set(message.id, message);
 		}
 	}

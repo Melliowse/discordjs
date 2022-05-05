@@ -4,7 +4,7 @@ module.exports = class DMChannel extends (require("./Channel")) {
 		super(client, data);
 		this.type = "dm";
 		this.__patch(data);
-		this.messages = new (require("../managers/MesssageManager"))(this.client, this);
+		this.messages = new (require("../managers/MessageManager"))(this.client, this);
 		(new TextBasedChannel).apply(this);
 	}
 

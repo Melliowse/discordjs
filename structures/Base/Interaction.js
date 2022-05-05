@@ -6,9 +6,9 @@ const TextBasedChannel = require("./TextChannel");
 class Interaction {
 	constructor(client, data) {
 		this.client = client;
-		this.id		= data?.id;
-		this.token	= data?.token;
-		this.type	= {
+		this.id = data?.id;
+		this.token = data?.token;
+		this.type = {
 			1: "PING",
 			2: "APPLICATION_COMMAND",
 			3: "MESSAGE_COMPONENT",
@@ -31,7 +31,9 @@ class Interaction {
 	}
 
 	async edit(contentOrEmbed, options) {
-		return await this.client.api.interactions[this.id][this.token]
+		return await this.client.api
+			.webhooks[this.client.id][this.token]
+			.messages["@original"]
 			.post({
 				type: 7,
 				data: TextBasedChannel.parse(contentOrEmbed, options)

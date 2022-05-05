@@ -11,6 +11,7 @@ module.exports = class {
 	sort(fn)		{	return this.values.sort(fn);	}
 	find(fn)		{	return this.values.find(fn);	}
 	filter(fn)		{	return this.values.filter(fn);	}
+	delete(v)		{	return this._data.delete(v);	}
 
 	get	first()		{
 		return [...this._data.values].sort((b, a) => a.added - b.added)[0];

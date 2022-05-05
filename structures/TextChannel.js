@@ -4,7 +4,7 @@ module.exports = class TextChannel extends (require("./Channel")) {
 		super(client, data, guild);
 		this.type = "text";
 		this.__patch(data);
-		this.messages = new (require("../managers/MesssageManager"))(this.client, this);
+		this.messages = new (require("../managers/MessageManager"))(this.client, this);
 		(new TextBasedChannel).apply(this);
 	}
 
