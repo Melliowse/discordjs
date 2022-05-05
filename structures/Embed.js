@@ -1,4 +1,10 @@
-module.exports = class Embed {
+/**
+ * @class Embed
+ */
+class Embed {
+	/**
+	 * @param {EmbedData} data
+	 */
 	constructor(data) {
 		this.title			= data?.title		|| null;
 		this.description	= data?.description	|| null;
@@ -79,17 +85,13 @@ module.exports = class Embed {
 		return this;
 	}
 
-	toString() {
-		return `Embed[]`;
-	}
-
 	toJSON() {
 		return {
 			title: /* ......... */ this.tile,
 			description: /* ... */ this.description,
 			url: /* ........... */ this.url,
 			timestamp: /* ..... */ this.timestamp,
-			color: /* ......... */ this.color,
+			color: /* ......... */ parseInt(this.color),
 			image: /* ......... */ this.image,
 			thumbnail: /* ..... */ this.thumbnail,
 			video: /* ......... */ this.video,
@@ -99,11 +101,6 @@ module.exports = class Embed {
 			type: /* .......... */ this.type || "rich",
 		};
 	}
+};
 
-	static is(obj) {
-		if (obj.description === void 0 && obj.title === void 0 && obj.image === void 0) {
-			return false;
-		}
-		return true;
-	}
-}
+module.exports = Embed;

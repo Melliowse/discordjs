@@ -1,7 +1,13 @@
 const Intents = require("./Intents");
 
-module.exports = class Client extends (require("./Base/Client")) {
+/**
+ * @class Client
+ */
+class Client extends (require("./Base/Client")) {
 	#token = null;
+	/**
+	 * @param {ClientOptions} options
+	 */
 	constructor(options) {
 		super();
 
@@ -15,7 +21,7 @@ module.exports = class Client extends (require("./Base/Client")) {
 				url: "https://discord.com/api",
 				cdn: "https://cdn.discordapp.com",
 			},
-			intents: [],
+			intents: 98047,
 			shardCount:	1,
 			...options
 		};
@@ -29,7 +35,7 @@ module.exports = class Client extends (require("./Base/Client")) {
 		this.sessionID	= null;
 
 		this.initialGuilds = [];
-		this.intents = new Intents(this.options.intents);
+		this.intents = this.options.intents;
 	}
 
 	get api() {
@@ -54,3 +60,4 @@ module.exports = class Client extends (require("./Base/Client")) {
 		};
 	}
 };
+module.exports = Client;

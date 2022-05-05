@@ -117,7 +117,7 @@ module.exports = class {
 			  "since": 91879201,
 			  "afk": false
 			},
-			intents: parseInt(this.client.intents.valueOf()),
+			intents: this.client.intents,
 		}, true);
 		// // this.ws.send({
 		// 	op: 2,

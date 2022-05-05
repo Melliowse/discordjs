@@ -36,28 +36,61 @@ module.exports = class {
 			method,
 			url,
 			headers,
-			data: opts !== void 0 ? JSON.stringify(opts) : void 0
+			data: opts !== void 0 ? JSON.stringify(opts) : void 0,
+			body: opts !== void 0 ? JSON.stringify(opts) : void 0
 		})).data;
 	}
 
 	buildRoute() {
 		let route = [""];
+		const manager = this,
+			handler = {
+			get(target, name) {
+				if (reflectors.indexOf(name) !== -1) {
+					return () => route.join("/");
+				}
+
+				if (methods.indexOf(name) !== -1) {
+					return (data) => {
+						return manager.request(
+							name,
+							route.join("/"),
+							{
+								route: route.join('/'),
+								versioned: true,
+								"Content-Type": "application/json"
+							},
+							data
+						);
+					};
+				}
+
+				route.push(name);
+				return new Proxy(() => {}, handler);
+			},
+			apply(target, _, args) {
+				route.push(...args.filter(x => x !== null));
+				return new Proxy(() => {}, handler);
+			},
+		};
+		return new Proxy(() => {}, handler);
+	}
+
+	_buildRoute() {
+		let route = [""];
 		const manager = this;
 		const handler = {
 			get(target, name) {
-				if (reflectors.includes(name)) {
-					return () => route.join("/");
-				}
 				if (methods.includes(name)) {
 					const routeBucket = [];
-					for (let i = 0; i < route.length; i++) {
-						if (route[i - 1] === "reactions") break;
-						if (/\d{16,19}/g.test(route[i]) && !/channels|guilds/.test(route[i - 1])) {
-							routeBucket.push(":id");
-						} else {
-							routeBucket.push(route[i]);
-						}
-					}
+					// for (let i = 0; i < route.length; i++) {
+					// 	if (route[i - 1] === "reactions") break;
+					// 	if (/\d{16,19}/g.test(route[i]) && !/channels|guilds/.test(route[i - 1])) {
+					// 		routeBucket.push(":id");
+					// 	} else {
+					// 		routeBucket.push(route[i]);
+					// 	}
+					// }
 					return options => 
 						manager.request(
 							name,

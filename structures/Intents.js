@@ -32,7 +32,7 @@ Intents.FLAGS = {
 	GUILD_SCHEDULED_EVENTS: /* ...... */ 1n << 16n,
 };
 
-Intents.ALL = Object.values(Intents.FLAGS).reduce((all, p) => all | p, 0n);
+Intents.ALL = 131;
 Intents.defaultBit = BigInt(0);
 
 module.exports = Intents;

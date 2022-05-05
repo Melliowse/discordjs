@@ -4,6 +4,10 @@
 	"description": "Discord.js but I am de captain now.",
 	"main": "index.js",
 	"type": "commonjs",
+	"types": "./typings/index.d.ts",
+	"files": [
+		"typings"
+	],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

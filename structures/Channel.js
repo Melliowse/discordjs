@@ -10,7 +10,7 @@ module.exports = class Channel {
 				}
 			});
 		} else {
-			this.guildID = -1;
+			this.guildID = null;
 		}
 		this._patch(data);
 	}

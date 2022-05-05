@@ -31,6 +31,18 @@ module.exports = class Message {
 		this.client.users.add(data.author)
 	}
 
+	reply(contentOrEmbed, options) {
+		return this.channel.send(contentOrEmbed, {
+			...(options ?? {}),
+			reference: {
+				id:					this.id,
+				guildID:			this.channel?.guildID ?? null,
+				channelID:			this.channelID,
+				fail_if_not_exists:	false,
+			}
+		});
+	}
+
 	get author() {
 		return this.client.users[this.authorID];
 	}

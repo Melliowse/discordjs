@@ -13,29 +13,27 @@ module.exports = class TextBasedChannel {
 	send(contentOrEmbed, options) {
 		let obj = {
 			embeds:				[],
-			content:			null,
 			tts:				false,
-			message_reference:	null,
 		};
 
-		if (Embed.is(contentOrEmbed)) {
+		if (contentOrEmbed instanceof Embed) {
 			obj.embeds = [
 				contentOrEmbed.toJSON(),
 			];
-		}
-
-		if (!Object.is(contentOrEmbed)) {
+		} else {
 			obj.content = `${contentOrEmbed}`;
 		}
 
-		if (options.reference !== void 0) {
+		if (options?.reference !== void 0) {
 			obj.message_reference = {
 				message_id: options.reference.id,
-				guild_id:	options.reference?.guildID,
 				channel_id: options.reference.channelID,
 			};
+			if (options.reference?.guildID !== null) {
+				obj.message_reference.guild_id = options.reference?.guildID || null;
+			}
 		}
 
-		this.client.api.channels[this.id].messages.post(obj);
+		this.client.api.channels[this.id].messages.post(obj).catch(console.log);
 	}
 }
