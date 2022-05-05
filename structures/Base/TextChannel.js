@@ -10,7 +10,7 @@ module.exports = class TextBasedChannel {
 		}
 	}
 
-	send(contentOrEmbed, options) {
+	static parse(contentOrEmbed, options) {
 		let obj = {
 			embeds:				[],
 			tts:				false,
@@ -33,6 +33,12 @@ module.exports = class TextBasedChannel {
 				obj.message_reference.guild_id = options.reference?.guildID || null;
 			}
 		}
+
+		return obj;
+	}
+
+	send(contentOrEmbed, options) {
+		const obj = TextBasedChannel.parse(contentOrEmbed, options)
 
 		this.client.api.channels[this.id].messages.post(obj).catch(console.log);
 	}
