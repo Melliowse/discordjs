@@ -1,19 +1,8 @@
 const Emoji = require("../structures/Emoji");
 
-class GuildEmojiManager extends (require("../structures/Base/SubManager")) {
-	constructor(client, guild, data = []) {
-		super();
-		this.client = client;
-		
-		this.guild = guild;
-
-		for (const emoji of data) {
-			this.client.emojis.add(emoji, this.guild);
-		}
-	}
-
-	add(...args) {
-		return this.client.emojis.add(...args);
+class ClientEmojiManager extends (require("../structures/Base/SubManager")) {
+	constructor(client) {
+		super(client);
 	}
 
 	toString() {
@@ -21,17 +10,22 @@ class GuildEmojiManager extends (require("../structures/Base/SubManager")) {
 	}
 
 	get _data() {
-		return this.client.emojis.filter(c => c?.guildID === this.guild.id);
+		return this.client.guilds.map(g => g.emojis.entries).map(e => ({added: 0, value: e}));
 	}
 }
 
 module.exports = class EmojiManager extends (require("../structures/Base/Manager")) {
-	constructor(client, guild, data) {
-		super();
-		this.client = client;
+	constructor(client, guild, data = []) {
+		super(client);
 
-		if (guild !== void 0) {
-			return new GuildEmojiManager(client, guild, data);
+		if (guild === void 0) {
+			return new ClientEmojiManager(client);
+		}
+
+		this.guild = guild;
+
+		for (const emoji of data) {
+			this.client.emojis.add(emoji, this.guild);
 		}
 	}
 
@@ -59,5 +53,15 @@ module.exports = class EmojiManager extends (require("../structures/Base/Manager
 		);
 		this[emoji.id]	= emoji;
 		return emoji;
+	}
+
+	valueOf() {
+		return `EmojiManager<${this.size}>`;
+	}
+
+	toJSON() {
+		return {
+			count: this.size,
+		};
 	}
 };

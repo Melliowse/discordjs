@@ -1,5 +1,5 @@
-const TextBasedChannel = require("./Base/TextChannel");
-module.exports = class DMChannel extends (require("./Channel")) {
+const TextBasedChannel = require("../Base/TextChannel");
+module.exports = class DMChannel extends (require("../Channel")) {
 	constructor(client, data) {
 		super(client, data);
 		this.type = "dm";

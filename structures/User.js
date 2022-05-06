@@ -1,4 +1,7 @@
-module.exports = class User {
+/**
+ * @class User
+ */
+class User {
 	constructor(client, data) {
 		this.client = client;
 		this._patch(data);
@@ -18,6 +21,11 @@ module.exports = class User {
 		this.accentColour	= data?.accent_color	|| "#000000";
 	}
 
+	get dms() {
+		this.client.channels.fetch(this, { cache: true });
+		return this.client.channels[this.dmChannelID];
+	}
+
 	get accentColor()	{	return this.accentColour;	}
 
 	get avatar() {
@@ -30,3 +38,5 @@ module.exports = class User {
 		return `${this.client.options.api.cdn}/banners/${this.id}/${this.bannerHash}.${/^a_/.test(this.bannerHash) ? "gif" : "png"}`;
 	}
 };
+
+module.exports = User;

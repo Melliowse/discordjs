@@ -7,6 +7,7 @@ module.exports = class MessageManager extends (require("../structures/Base/Manag
 	}
 
 	add(...data) {
+		let messages = [];
 		for (const m of data.flat()) {
 			const message = new Message(this.client, m, this.channel);
 			
@@ -14,7 +15,10 @@ module.exports = class MessageManager extends (require("../structures/Base/Manag
 				this.delete(this.first.id);
 			}
 
+			messages.push(message);
+
 			this.set(message.id, message);
 		}
+		return messages;
 	}
 };

@@ -1,26 +1,23 @@
-module.exports = class Channel {
+const Base = require("./Base");
+class Channel extends Base {
 	constructor(client, data, guild) {
-		this.client		= client;
+		super(client);
+		this.type = "unknown";
+
 		this.id			= data.id;
-		if (guild !== void 0) {
-			this.guild		= guild;
-			Object.defineProperty(this, "guildID", {
-				get: () => {
-					return this.guild.id;
-				}
-			});
-		} else {
-			this.guildID = null;
-		}
 		this._patch(data);
 	}
 
 	_patch(data) {
-		this.name		= data?.name || this?.name || null;
-		this.position	= data?.position || this?.position || null;
 	}
 
 	toString() {
 		return `${this.type[0].toUpperCase()}${this.type.slice(1)}Channel`;
 	}
+
+	toJSON() {
+		return this.toString();
+	}
 };
+
+module.exports = Channel;

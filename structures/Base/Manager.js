@@ -1,13 +1,15 @@
-module.exports = class {
-	constructor(data) {
-		this._count = 0;
-		this._data = new Map();
+const Base = require("./");
+class BaseManager extends Base {
+	#data = new Map();
+	#count = 0;
+	constructor(client, data) {
+		super(client);
 	}
 
-	get size()		{	return this._data.size;							}
-	get keys()		{	return [...this._data.keys()];					}
-	get values()	{	return [...this._data.values()].map(f => f.value);				}
-	get entries()	{	return [...this._data.entries()].map(f => {
+	get size()		{	return this.#data.size;							}
+	get keys()		{	return [...this.#data.keys()];					}
+	get values()	{	return [...this.#data.values()].map(f => f.value);				}
+	get entries()	{	return [...this.#data.entries()].map(f => {
 		console.log(f);
 		return { name: f[0], value: f[1].value }
 	});				}
@@ -15,7 +17,8 @@ module.exports = class {
 	sort(fn)		{	return this.values.map(f => f.value).sort(fn);	}
 	find(fn)		{	return this.values.map(f => f.value).find(fn);	}
 	filter(fn)		{	return this.values.filter(fn);					}
-	delete(v)		{	return this._data.delete(v)						}
+	map(fn)			{	return this.values.map(f => f.value).map(fn);	}
+	delete(v)		{	return this.#data.delete(v)						}
 
 	get	first()		{
 		return this.values.sort((b, a) => a.added - b.added)[0];
@@ -26,12 +29,12 @@ module.exports = class {
 	}
 
 	get(key) {
-		return this._data.get(key)?.value || void 0;
+		return this.#data.get(key)?.value || void 0;
 	}
 
 	set(key, value) {
 		this._count = this._count + 1;
-		this._data.set(key, {
+		this.#data.set(key, {
 			added: this._count,
 			value: value,
 		});
@@ -52,4 +55,14 @@ module.exports = class {
 	toString() {
 		return `Manager<${this.size}>`;
 	}
+
+	valueOf() {
+		return `Manager<${this.size}>`;
+	}
+
+	toJSON() {
+		return `Manager<${this.size}>`;
+	}
 };
+
+module.exports = BaseManager;

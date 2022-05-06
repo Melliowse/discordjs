@@ -30,7 +30,6 @@ module.exports = class {
 			"Content-Type": "application/json",
 			"User-Agent": `DiscordBot (Discordjs, 1.0.0) Node.js/${process.version}`
 		};
-		console.log(opts)
 		return (await axios({
 			method,
 			url,

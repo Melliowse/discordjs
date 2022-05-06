@@ -1,6 +1,8 @@
-module.exports = class Guild {
+const Base = require("./Base");
+
+class Guild extends Base {
 	constructor(client, data) {
-		this.client		= client;
+		super(client);
 		this.emojis		= new (require("../managers/EmojiManager"))(this.client, this);
 		this.members	= new (require("../managers/MemberManager"))(this);
 		this.roles		= new (require("../managers/RoleManager"))(this);
@@ -74,6 +76,12 @@ module.exports = class Guild {
 	}
 
 	toString() {
-		return "Guild";
+		return `Guild<${this.id}}>`;
+	}
+
+	valueOf() {
+		return `Guild<${this.id}}>`;
 	}
 };
+
+module.exports = Guild;

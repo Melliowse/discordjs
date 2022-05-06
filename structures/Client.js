@@ -1,4 +1,5 @@
-const Intents = require("./Intents");
+const Intents = require("./Intents"),
+	{ ClientOptions } = require("../misc/constants");
 
 /**
  * @class Client
@@ -12,17 +13,7 @@ class Client extends (require("./Base/Client")) {
 		super();
 
 		this.options = {
-			ws: {
-
-			},
-			api: {
-				version:	9,
-				encoding:	"json",
-				url: "https://discord.com/api",
-				cdn: "https://cdn.discordapp.com",
-			},
-			intents: 98047,
-			shardCount:	1,
+			...ClientOptions,
 			...options
 		};
 
@@ -52,6 +43,7 @@ class Client extends (require("./Base/Client")) {
 		this.once("socketOpen", () => {
 			this.shards.connect();
 		});
+		return;
 	}
 	
 	_afterIdentify() {

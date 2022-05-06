@@ -1,10 +1,9 @@
-const TextBasedChannel = require("./Base/TextChannel");
-module.exports = class TextChannel extends (require("./Channel")) {
+const TextBasedChannel = require("../Base/TextChannel");
+module.exports = class TextChannel extends (require("../GuildChannel")) {
 	constructor(client, data, guild) {
 		super(client, data, guild);
 		this.type = "text";
 		this.__patch(data);
-		this.messages = new (require("../managers/MessageManager"))(this.client, this);
 		(new TextBasedChannel).apply(this);
 	}
 

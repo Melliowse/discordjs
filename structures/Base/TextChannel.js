@@ -1,5 +1,5 @@
 const Embed = require("../Embed");
-module.exports = class TextBasedChannel {
+class TextBasedChannel {
 	apply(obj) {
 		for (const prop of [
 			"send"
@@ -8,6 +8,8 @@ module.exports = class TextBasedChannel {
 				value: this[prop].bind(obj),
 			});
 		}
+
+		obj.messages = new (require("../../managers/MessageManager"))(obj.client, obj);
 	}
 
 	static parse(contentOrEmbed, options) {
@@ -37,9 +39,10 @@ module.exports = class TextBasedChannel {
 		return obj;
 	}
 
-	send(contentOrEmbed, options) {
+	async send(contentOrEmbed, options) {
 		const obj = TextBasedChannel.parse(contentOrEmbed, options)
 
-		this.client.api.channels[this.id].messages.post(obj).catch(console.log);
+		return await this.client.api.channels[this.id].messages.post(obj);
 	}
 }
+module.exports = TextBasedChannel;
