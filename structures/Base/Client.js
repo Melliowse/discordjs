@@ -1,7 +1,12 @@
+const { ClientOptions } = require("../../misc/constants"),
+	EventEmitter = require("events");
 
-module.exports = class extends (require("events")) {
-	constructor() {
+module.exports = class BaseClient extends EventEmitter {
+	constructor(options) {
 		super();
+
+		// default options
+		this.options = Object.assign(ClientOptions, options);
 	}
 
 	debug(message) {

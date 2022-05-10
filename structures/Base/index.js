@@ -1,10 +1,9 @@
-/**
- * @class Base
- */
-class Base {
+module.exports = class Base {
 	constructor(client) {
 		this.client = client;
 	}
-};
 
-module.exports = Base;
+	debug(message) {
+		this.client.debug(message);
+	}
+};

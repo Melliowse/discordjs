@@ -1,5 +1,5 @@
 module.exports = class Event {
-	constructor(manager) {
-		this.manager = manager;
+	constructor(shard) {
+		this.shard = shard;
 	}
 }
