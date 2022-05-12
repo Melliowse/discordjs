@@ -3,5 +3,5 @@ module.exports = {
 	Embed: require("./structures/Embed"),
 	Event: require("./structures/Event"),
 	Guild: require("./structures/Guild"),
-	Message: require("./structures/Message"),
+	Channel: require("./structures/channels")
 };

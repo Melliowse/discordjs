@@ -46,7 +46,6 @@ module.exports = class Shard extends Base {
 		});
 
 		this.socket.on("message", (_data) => {
-			// console.log(_data);
 			const data = unpack(_data);
 			switch (data.op) {
 				default:

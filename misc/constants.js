@@ -27,3 +27,58 @@ exports.ClientOptions = {
 		},
 	},
 };
+
+exports.ChannelTypes = [
+	"text",
+	"dm",
+	"voice",
+	"groupDM",
+	"category",
+	"news",
+	null,
+	null,
+	null,
+	null,
+	null,
+	"newsThread",
+	"publicThread",
+	"privateThread",
+	"stage",
+	"directory",
+	"forum"
+];
+
+exports.MessageTypes = [
+	"default",
+	"recipientAdd",
+	"recipientRemove",
+	"call",
+	"groupNameChange",
+	"groupIconChange",
+	"groupMessagePinned",
+	"guildMemberJoin",
+	"guildBoost",
+	"guildBoostTier1",
+	"guildBoostTier2",
+	"guildBoostTier3",
+	"channelFollow",
+	"guildDiscoveryDisqualified",
+	"guildDiscoveryRequalified",
+	"guildDiscoveryGracePeriodIntialWarning",
+	"guildDiscoveryGracePeriodFinalWarning",
+	"threadCreate",
+	"reply",
+	"chatInputCommand",
+	"threadStarterMessage",
+	"inviteReminder",
+	"contextMenuCommand",
+];
+
+exports.MessageActivityTypes = [
+	null,
+	"join",
+	"spectate",
+	"listen",
+	null,
+	"joinRequest"
+]
