@@ -17,6 +17,36 @@ class Interaction {
 		}[data.type];
 	}
 
+	async prompt(options) {
+		options = {
+			style: "paragraph",
+			...options,
+		}
+		return await this.client.api.interactions[this.id][this.token]
+			.post({
+				type: 9,
+				data: {
+					custom_id: options.customID,
+					title: options.title,
+					components: [
+						{
+							type: 4,
+							value: options?.value,
+							placeholder: options?.placeholder,
+							max_length: options?.max,
+							min_length: options?.min,
+							style: {
+								"short": 1,
+								"paragraph": 4,
+							}[options?.style],
+							label: options.label,
+							custom_id: `SUB:${options.customID}`,
+						}
+					]
+				}
+			});
+	}
+
 	async think() {
 		return await this.client.api.interactions[this.id][this.token]
 			.post({ type: 1 });
